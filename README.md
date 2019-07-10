@@ -5,6 +5,16 @@ File an issue if you have any questions.
 
 # Content
 
+This repo has the following files:
+* `glow.py`, `wn.py` and `upsample.py`: waveglow model
+* `config.py`: model parameters
+* `benchmark.py`: benchmark utilities
+
 # Usage
+
+To run waveglow inference:
+```
+python ./benchmark.py --gpu=0
+```
 
 # Benchmark
