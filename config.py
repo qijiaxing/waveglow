@@ -1,0 +1,9 @@
+params = {}
+params["sigma"] = 1.0
+params["n_mel_channels"] = 80
+params["wn_channels"] = 512
+params["wn_layers"] = 8
+params["n_group"] = 8
+params["n_flows"] = 12
+params["n_early_every"] = 4
+params["n_early_size"] = 2
