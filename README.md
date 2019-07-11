@@ -17,4 +17,7 @@ To run waveglow inference:
 python ./benchmark.py --gpu=0
 ```
 
-# Benchmark
+# Inference performance
+
+On a NVidia V100 32GB NVLink GPU, we measure the inference RTF to be 0.024, with `n_channels = 512`.
+The docker image we used is `nvcr.io/nvidia/tensorflow:19.06-py3`
