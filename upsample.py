@@ -10,7 +10,9 @@ def upsample(spect, n_mel_channels=80):
     k = 1024
     s = 256
     upsample_stride = [1, 1, 1, s]
-    batch, _, _, t_dim = tf.shape(spect) # batch = 1 t_dim = 400
+# batch, _, _, t_dim = tf.shape(spect) # batch = 1 t_dim = 400
+    batch = tf.shape(spect)[0] # batch = 1 t_dim = 400
+    t_dim = tf.shape(spect)[3] # batch = 1 t_dim = 400
     output_shape = [batch, n_mel_channels, 1, (t_dim-1)*s+k]
     filter = tf.constant(1.0, shape=[1, k, n_mel_channels, n_mel_channels],
       dtype=spect.dtype, name='upsample/filter')

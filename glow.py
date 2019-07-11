@@ -5,7 +5,7 @@ from wn import wn, get_weight
 
 jit_scope = tf.contrib.compiler.jit.experimental_jit_scope
 
-def random_normal(spect, t_dim, n_remaining_channels, sigma):
+def random_normal(dtype, t_dim, n_remaining_channels, sigma):
   if isinstance(t_dim, int):
     # Generate from numpy and save as constant
     z_shape = (1,n_remaining_channels,1,t_dim)
@@ -48,7 +48,7 @@ def waveglow(spect, params):
     # spect: NCHW, [1, 640, 1, 12800]
 
     t_dim = tf.shape(spect)[3]  # 12800
-    audio = random_normal(spect, t_dim, n_remaining_channels, sigma)
+    audio = random_normal(dtype, t_dim, n_remaining_channels, sigma)
 
     for k in reversed(range(n_flows)):
       with tf.variable_scope("flow_"+str(k)):
@@ -69,7 +69,7 @@ def waveglow(spect, params):
           audio = tf.nn.conv2d(audio, filter=w, strides=[1,1,1,1], padding='SAME', data_format='NCHW', name='1x1_inv_conv')
 
         if k % n_early_every == 0 and k > 0:
-          z = random_normal(spect, t_dim, n_early_size, sigma)
+          z = random_normal(dtype, t_dim, n_early_size, sigma)
           audio = tf.concat(values=(z, audio), axis=1, name="append_z")
           n_remaining_channels = n_remaining_channels + params["n_early_size"]
 
@@ -78,7 +78,7 @@ def waveglow(spect, params):
     audio = tf.reshape(audio, [batch, -1], name="output_audio")
     return audio
 
-def create_model(fp16, batch=1, out_graph_file):
+def create_waveglow(fp16, batch, out_graph_file):
   import numpy as np
   import config
   params = config.params

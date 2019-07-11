@@ -17,7 +17,7 @@ def print_perf(points, emp_time, sample_rate):
   rtf = emp_time / points * sample_rate
   kHz = int(points / emp_time / 1000.0)
   print("Points: ", points)
-  print("t: {:.3f}".format(emp_time))
+  print("Min time: {:.3f} s".format(emp_time))
   print("RTF: {:.3f}".format(rtf))
   print("kHz: ", kHz)
 
@@ -27,7 +27,7 @@ def run(fetches, feed_dict, n_runs, timeline_file):
   config.gpu_options.allow_growth = True
   with tf.Session(config=config) as sess:
     emp_time = 100000.0
-    print("To run benchmark")
+    tf.logging.info("To run Waveglow benchmark")
     for _ in range(n_runs):
       start = time.time()
       o = sess.run(fetches, feed_dict=feed_dict)
@@ -40,9 +40,9 @@ def run(fetches, feed_dict, n_runs, timeline_file):
   return o, emp_time
 
 def benchmark(fp16=False, profile_prefix="", batch=1, n_runs=16):
-  sample_rate = 22000.0
+  sample_rate = 22050.0
   from glow import create_waveglow
-  out, f_dict = create_waveglow(fp16, batch)
+  out, f_dict = create_waveglow(fp16, batch, "")
 
   if profile_prefix == "":
     timeline_file = None
