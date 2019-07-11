@@ -19,5 +19,5 @@ python ./benchmark.py --gpu=0
 
 # Inference performance
 
-On a NVidia V100 32GB NVLink GPU, we measure the inference RTF to be 0.024, with `n_channels = 512`.
+On a NVidia V100 32GB NVLink GPU, we measure the inference RTF to be 0.024 in `fp16` mode with `n_channels = 512`.
 The docker image we used is `nvcr.io/nvidia/tensorflow:19.06-py3`
