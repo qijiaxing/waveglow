@@ -52,6 +52,9 @@ def wn(audio, spect, in_channels, n_mel_channels, n_layers, n_channels, kernel_s
   audio: NCHW, C = in_channels
   spect: NCHW, C = n_mel_channels
 
+  An optimization possibility is combine audio and output as one tensor
+  to avoid slicing into res and skip
+
   """
   dtype = audio.dtype
 

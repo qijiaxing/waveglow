@@ -42,15 +42,15 @@ def run(fetches, feed_dict, n_runs, timeline_file):
 def benchmark(fp16=False, profile_prefix="", batch=1, n_runs=16):
   sample_rate = 22050.0
   from glow import create_waveglow
-  out, f_dict = create_waveglow(fp16, batch, "")
+  out, f_dict = create_waveglow(fp16, batch)
 
   if profile_prefix == "":
     timeline_file = None
   else:
     if fp16:
-      timeline_file = profile_prefix + 'fp16.json'
+      timeline_file = profile_prefix + '.fp16.json'
     else:
-      timeline_file = profile_prefix + 'fp32.json'
+      timeline_file = profile_prefix + '.fp32.json'
 
   o, emp_time = run(out, f_dict, n_runs, timeline_file)
 

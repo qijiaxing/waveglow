@@ -78,7 +78,7 @@ def waveglow(spect, params):
     audio = tf.reshape(audio, [batch, -1], name="output_audio")
     return audio
 
-def create_waveglow(fp16, batch, out_graph_file):
+def create_waveglow(fp16, batch):
   import numpy as np
   import config
   params = config.params
@@ -93,15 +93,16 @@ def create_waveglow(fp16, batch, out_graph_file):
   out = waveglow(spect, params)
   tf.logging.info("Created waveglow model")
 
-  if out_graph_file:
-    out_dir = "./"
-    tf.logging.info("Save waveglow graph to: ", out_graph_file)
-    tf.train.write_graph(
-      tf.get_default_graph().as_graph_def(), out_dir, out_graph_file, False)
-
   return out, f_dict
 
 if __name__ == "__main__":
   fp16 = True
-  out_graph_file = None
-  out_audio, f_dict = create_waveglow(fp16, 1, out_graph_file)
+  out_audio, f_dict = create_waveglow(fp16, 1)
+
+  out_graph_file = "wg.graph.pbtxt"
+  inText = True
+  if out_graph_file:
+    out_dir = "./"
+    tf.logging.info("Save waveglow graph to: "+out_graph_file)
+    tf.train.write_graph(
+      tf.get_default_graph().as_graph_def(), out_dir, out_graph_file, inText)
